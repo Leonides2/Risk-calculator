@@ -8,6 +8,7 @@ export function register() {
       url: process.env.OTEL_EXPORTER_OTLP_ENDPOINT,
       headers: {
         Authorization: process.env.OTEL_EXPORTER_OTLP_HEADERS || '',
+        
       },
     }),
   });
