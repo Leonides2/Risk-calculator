@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, ReactNode, useReducer, useCallback, useEffect } from 'react';
+import React, { createContext, useContext, ReactNode, useReducer, useCallback } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { Risk, PROBABILITY_LEVELS, IMPACT_LEVELS, calculateRiskLevel } from '@/lib/types';
 
