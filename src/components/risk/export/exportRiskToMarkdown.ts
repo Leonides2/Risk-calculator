@@ -2,8 +2,10 @@
 
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
+import { statsInterface } from '../RiskList';
+import { Risk } from '@/lib/types';
 
-export async function exportRisksToMarkdown(risks: any[], stats: any) {
+export async function exportRisksToMarkdown(risks: Risk[], stats: statsInterface) {
   let content = '# Análisis de Riesgos\n\n';
 
    // Encabezado

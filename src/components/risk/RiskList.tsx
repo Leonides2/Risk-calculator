@@ -8,6 +8,16 @@ import { saveAs } from 'file-saver';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 
+export interface statsInterface {
+  total: number;
+  low: number;
+  medium: number;
+  high: number;
+  lowPercentage: number;
+  mediumPercentage: number;
+  highPercentage: number;
+}
+
 export function RiskList() {
   const { risks, deleteRisk, getRiskStatistics, editRisk, setRisks } = useRisk();
   
