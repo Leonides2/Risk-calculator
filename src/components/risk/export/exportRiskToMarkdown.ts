@@ -44,9 +44,6 @@ export async function exportRisksToMarkdown(risks: Risk[], stats: statsInterface
       content += `Riesgos Medios:  ${stats.medium} (${stats.mediumPercentage}%)\n`;
       content += `Riesgos Altos:   ${stats.high} (${stats.highPercentage}%)\n`;
       content += '```\n';
-      
-      // Crear y descargar archivo
-      const blob = new Blob([content], { type: 'text/markdown;charset=utf-8' });
      
   return content;
 }

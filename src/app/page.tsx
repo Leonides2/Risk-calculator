@@ -1,13 +1,14 @@
 'use client';
-
-import { RiskMatrix } from '@/components/risk/RiskMatrix';
-import { RiskForm } from '@/components/risk/RiskForm';
-import { RiskList } from '@/components/risk/RiskList';
 import { RiskProvider } from '@/context/RiskContext';
 import { useState } from 'react';
+import dynamic from 'next/dynamic';
+import { RiskForm } from '@/components/risk/RiskForm';
 
 export default function Home() {
   const [selectedCell, setSelectedCell] = useState<{x: number, y: number} | null>(null);
+
+  const RiskList = dynamic(() => import('@/components/risk/RiskList').then(mod => mod.RiskList), { ssr: false });
+  const RiskMatrix = dynamic(() => import('@/components/risk/RiskMatrix').then(mod => mod.RiskMatrix), { ssr: false });
 
   const handleCellClick = (x: number, y: number) => {
     setSelectedCell({ x, y });
