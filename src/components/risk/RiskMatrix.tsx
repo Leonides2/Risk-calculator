@@ -33,7 +33,11 @@ export function RiskMatrix({ onCellClick }: RiskMatrixProps) {
     { name: 'Alto', value: risks.filter(r => r.riskLevel === 'Alto').length },
   ];
 
-  const COLORS = ['#10b981', '#f59e0b', '#ef4444'];
+ const COLOR_MAP: Record<string, string> = {
+  'Bajo': '#10b981',   // verde
+  'Medio': '#f59e0b',  // amarillo
+  'Alto': '#ef4444',   // rojo
+};
 
   return (
     <div className="space-y-8">
@@ -101,7 +105,7 @@ export function RiskMatrix({ onCellClick }: RiskMatrixProps) {
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
-                  data={riskLevelData}
+                  data={riskLevelData.filter(d => d.value > 0)}
                   cx="50%"
                   cy="50%"
                   labelLine={false}
@@ -111,7 +115,7 @@ export function RiskMatrix({ onCellClick }: RiskMatrixProps) {
                   label={({ name, percent }) => `${name}: ${(percent ?  percent * 100 : 0).toFixed(0)}%`}
                 >
                   {riskLevelData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    <Cell key={`cell-${index}`} fill={COLOR_MAP[entry.name] || '#8884d8'} />
                   ))}
                 </Pie>
                 <Tooltip />
@@ -132,7 +136,7 @@ export function RiskMatrix({ onCellClick }: RiskMatrixProps) {
                 <Legend />
                 <Bar dataKey="value" name="Cantidad de Riesgos">
                   {riskLevelData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    <Cell key={`cell-${index}`} fill={COLOR_MAP[entry.name] || '#8884d8'} />
                   ))}
                 </Bar>
               </BarChart>

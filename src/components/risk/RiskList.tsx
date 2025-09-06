@@ -1,3 +1,4 @@
+'use client';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Download, Edit, Trash2, AlertTriangle, CheckCircle, Info } from 'lucide-react';
@@ -10,55 +11,16 @@ import { es } from 'date-fns/locale';
 export function RiskList() {
   const { risks, deleteRisk, getRiskStatistics, editRisk, setRisks } = useRisk();
   
-  const exportToMarkdown = () => {
+  const exportToMarkdown = async () => {
     if (risks.length === 0) {
       alert('No hay riesgos para exportar');
       return;
     }
 
-    let content = '# Análisis de Riesgos\n\n';
-    
-    // Encabezado
-    content += `> **Generado el:** ${new Date().toLocaleDateString('es-ES', { 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    })}\n\n`;
-    
-    // Tabla de resumen
     const stats = getRiskStatistics();
-    content += '## Resumen de Riesgos\n\n';
-    content += '| Categoría | Cantidad | Porcentaje |\n';
-    content += '|-----------|----------|------------|\n';
-    content += `| **Total** | ${stats.total} | 100% |\n`;
-    content += `| **Bajo** | ${stats.low} | ${stats.lowPercentage}% |\n`;
-    content += `| **Medio** | ${stats.medium} | ${stats.mediumPercentage}% |\n`;
-    content += `| **Alto** | ${stats.high} | ${stats.highPercentage}% |\n\n`;
-    
-    // Lista de riesgos
-    content += '## Lista de Riesgos\n\n';
-    risks.forEach((risk, index) => {
-      content += `### Riesgo #${index + 1}\n\n`;
-      content += `- **Descripción:** ${risk.description}\n`;
-      content += `- **Probabilidad:** ${risk.probability.label} (${risk.probability.description})\n`;
-      content += `- **Impacto:** ${risk.impact.label} (${risk.impact.description})\n`;
-      content += `- **Nivel de Riesgo:** \`${risk.riskLevel}\` (Puntuación: ${risk.riskScore})\n`;
-      content += `- **Fecha:** ${format(new Date(risk.createdAt), "PPP", { locale: es })}\n\n`;
-    });
-    
-    // Estadísticas adicionales
-    content += '## Estadísticas\n\n';
-    content += '```\n';
-    content += `Total de riesgos: ${stats.total}\n`;
-    content += `Riesgos Bajos:   ${stats.low} (${stats.lowPercentage}%)\n`;
-    content += `Riesgos Medios:  ${stats.medium} (${stats.mediumPercentage}%)\n`;
-    content += `Riesgos Altos:   ${stats.high} (${stats.highPercentage}%)\n`;
-    content += '```\n';
-    
-    // Crear y descargar archivo
-    const blob = new Blob([content], { type: 'text/markdown;charset=utf-8' });
+    const { exportRisksToMarkdown } = await import('./export/exportRiskToMarkdown');
+    const markdownContent = await exportRisksToMarkdown(risks, stats);
+    const blob = new Blob([markdownContent], { type: 'text/markdown;charset=utf-8' });
     saveAs(blob, `analisis-riesgos-${new Date().toISOString().split('T')[0]}.md`);
   };
 

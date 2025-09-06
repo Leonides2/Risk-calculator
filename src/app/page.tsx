@@ -11,6 +11,7 @@ export default function Home() {
 
   const handleCellClick = (x: number, y: number) => {
     setSelectedCell({ x, y });
+    console.log(`Celda clickeada: Probabilidad ${x + 1}, Impacto ${y + 1}`);
   };
 
   return (

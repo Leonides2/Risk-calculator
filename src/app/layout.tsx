@@ -26,10 +26,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
+      <Analytics />
+      <SpeedInsights />
       <body className={`${geistSans.variable} ${geistMono.variable} font-sans`}>
-          {children}
-          <Analytics />
-          <SpeedInsights />
+        {children}
       </body>
     </html>
   );
